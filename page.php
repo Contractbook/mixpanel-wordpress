@@ -22,7 +22,7 @@ class MixPanel {
    * Inserts the value for the mixpanel.track() API Call
    * @return boolean technically this should be html.. 
    */
-  function insert_event()
+  static function insert_event()
   {
     $event_label = self::get_post_event_label(); 
     $settings = (array) get_option( 'mixpanel_settings' );
@@ -61,7 +61,7 @@ class MixPanel {
    *
    * @return [type] [description]
    */
-  function insert_tracker()
+  static function insert_tracker()
   {
     $settings = (array) get_option( 'mixpanel_settings' );
     if(!isset($settings['token_id'])) {
