@@ -34,8 +34,13 @@ class MixPanel {
       var humanDate = rightNow.toDateString(); 
 
       mixpanel.register_once({ 
-        'first_wp_page': document.title,
-        'first_wp_contact': humanDate  
+        'Seen Blog Page [first touch]': document.title,
+        'Seen Blog Page At [first touch]': humanDate  
+      });
+      
+      mixpanel.register({
+        'Seen Blog Page [last touch]': document.title,
+        'Seen Blog Page At [last touch]': humanDate  
       });
 
       mixpanel.track(\"Page view\", {
