@@ -2,8 +2,6 @@
 add_action( 'wp_head', array('MixPanel','insert_tracker' ));
 add_action( 'wp_footer', array('MixPanel','insert_event' ));
 
-
-
 class MixPanel {
 
   /**
@@ -35,25 +33,18 @@ class MixPanel {
       var rightNow = new Date(); 
       var humanDate = rightNow.toDateString(); 
 
-	     mixpanel.register_once({ 
+      mixpanel.register_once({ 
         'first_wp_page': document.title,
-        'first_wp_contact': humanDate 
-        
-        });
-       mixpanel.track(\"viewed page\", 
-          {
-            'page name': document.title, 
-            'page url': window.location.pathname
+        'first_wp_contact': humanDate  
+      });
 
-          }
-        ); 
+      mixpanel.track(\"Page view\", {
+        'page_name': document.title
+      }); 
     </script> "; 
-
-
 
     return true; 
   }
-
 
   /**
    * Adds the Javascript necessary to start tracking via MixPanel. 
