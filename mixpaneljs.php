@@ -10,4 +10,59 @@ mixpanel.set_config({
     debug: <?php if ($settings['debug_mode'] === "true") { echo 'true'; } else { echo 'false'; }  ?>
 });
 </script> 
-<!-- end Mixpanel -->
+
+<script type="text/javascript">
+const UTMS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_content",
+  "utm_term",
+];
+
+const ATTRIBUTES = [
+  "campaignid",
+  "adgroupid",
+  "targetid",
+  "matchtype",
+  "network",
+  "keyword",
+  "qualityscore",
+];
+
+getQueryParam = (url, param) => {
+  const parameters = param.replace(/[[]/, "[").replace(/]/, "]");
+  const regexS = `[?&]${parameters}=([^&#]*)`;
+  const regex = new RegExp(regexS);
+  const results = regex.exec(url);
+
+  if (
+    results === null ||
+    (results && typeof results[1] !== "string" && results[1].length)
+  ) {
+    return "";
+  }
+  return decodeURIComponent(results[1]).replace(/\W/gi, " ");
+};
+
+allParameters = UTMS.concat(ATTRIBUTES);
+let kw = "";
+const registerAllParams = {};
+const lastTouchParams = {};
+const firstTouchParams = {};
+
+// # Get values for all params
+allParameters.forEach(param => {
+  kw = getQueryParam(document.URL, param);
+  if (kw) {
+    lastTouchParams[`${param} [last touch]`] = kw;
+    firstTouchParams[`${param} [first touch]`] = kw;
+    registerAllParams[param] = kw;
+  }
+});
+
+mixpanel.people.set_once(firstTouchParams);
+mixpanel.people.set(lastTouchParams);
+mixpanel.register(registerAllParams);
+</script>
+<!-- End Mixpanel tracking -->
